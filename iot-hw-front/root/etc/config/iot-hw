@@ -1,0 +1,7 @@
+config iot-hw 'main_sct'
+	option enable '0'
+	option org ''
+	option type ''
+	option id ''
+	option token ''
+

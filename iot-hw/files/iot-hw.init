@@ -1,0 +1,27 @@
+#!/bin/sh /etc/rc.common
+
+USE_PROCD=1
+
+start_service() {
+	local enabled
+	
+	config_load 'iot-hw'
+	config_get enabled main_sct 'enable' '0'
+
+	if [ "$enabled" -eq 1 ]; then
+		procd_open_instance
+		procd_set_param command /usr/bin/iot-hw
+		procd_set_param pidfile /var/run/iot-hw.pid
+		procd_set_param file /etc/config/iot-hw
+		procd_close_instance
+	fi
+}
+
+service_triggers() {
+	procd_add_reload_trigger "iot-hw"
+}
+
+reload_service() {
+	stop
+	start
+}
